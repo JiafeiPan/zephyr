@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 # SPDX-License-Identifier: Apache-2.0
+# Copyright 2022 NXP
 # Copyright (c) 2021 Intel Corporation
 
 # A script to generate twister options based on modified files.
@@ -108,18 +109,24 @@ class Filters:
 
     def get_plan(self, options, integration=False):
         fname = "_test_plan_partial.json"
-        cmd = ["scripts/twister", "-c"] + options + ["--save-tests", fname ]
+        if os.name == 'nt':
+            py = ["python"]
+        else:
+            py = []
+        cmd = py + [os.path.join('scripts', 'twister'), "-c"] + options + ["--save-tests", fname ]
         if integration:
             cmd.append("--integration")
 
         logging.info(" ".join(cmd))
-        _ = subprocess.call(cmd)
-        with open(fname, newline='') as jsonfile:
-            json_data = json.load(jsonfile)
-            suites = json_data.get("testsuites", [])
-            self.all_tests.extend(suites)
+        _ = subprocess.call(cmd, shell=True)
         if os.path.exists(fname):
+            with open(fname, newline='') as jsonfile:
+                json_data = json.load(jsonfile)
+                suites = json_data.get("testsuites", [])
+                self.all_tests.extend(suites)
             os.remove(fname)
+        else:
+            exit(f"File Not Found Error: {fname}")
 
     def find_archs(self):
         # we match both arch/<arch>/* and include/arch/<arch> and skip common.
