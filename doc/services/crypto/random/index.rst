@@ -47,10 +47,6 @@ An override of the default value can be specified in the SOC or board
 
 The random number generators available include:
 
-:kconfig:option:`CONFIG_TIMER_RANDOM_GENERATOR`
- enables number generator based on system timer clock. This number
- generator is not random and used for testing only.
-
 :kconfig:option:`CONFIG_ENTROPY_DEVICE_RANDOM_GENERATOR`
  enables a random number generator that uses the enabled hardware
  entropy gathering driver to generate random numbers.
