@@ -100,6 +100,8 @@ already supported, which can also be re-used on this mimxrt595_evk board:
 +-----------+------------+-------------------------------------+
 | RTC       | on-chip    | counter                             |
 +-----------+------------+-------------------------------------+
+| SDHC      | on-chip    | disk access (works with eMMC & SD)  |
++-----------+------------+-------------------------------------+
 
 The default configuration can be found in the defconfig file:
 
