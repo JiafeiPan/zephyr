@@ -92,6 +92,41 @@
 				<20 0 &gpio4 22 0>,	/* D14 */
 				<21 0 &gpio4 21 0>;	/* D15 */
 	};
+
+	power-states {
+		/* This is the setting Sleep Mode */
+		idle: idle {
+			compatible = "zephyr,power-state";
+			power-state-name = "runtime-idle";
+			min-residency-us = <0>;
+			exit-latency-us = <0>;
+		};
+		/* This is the setting for Deep-sleep Mode */
+		suspend: suspend {
+			compatible = "nxp,pdcfg-power", "zephyr,power-state";
+			power-state-name = "suspend-to-idle";
+			min-residency-us = <500>;
+			exit-latency-us = <120>;
+			/*
+			 * These values are written to the PDSLEEPCFG registers to keep certain
+			 * blocks such as LPOSC, SRAM's, FlexSPI0 SRAM powered on during deep
+			 * sleep mode.
+			 */
+			deep-sleep-config = <0xC800>,
+						<0x80000004>,
+						<0xFFFFFFFF>,
+						<0>;
+		};
+		/*
+		 * Deep power-down mode is supported in this SoC through 'PM_STATE_SOFT_OFF' state.
+		 * There is no entry for this in device tree, user can call pm_state_force to enter
+		 * this state.
+		 */
+	};
+};
+
+&cpu0 {
+	cpu-power-states = <&idle &suspend>;
 };
 
 /*
@@ -196,6 +231,17 @@ arduino_serial: &flexcomm12 {
 			min-uV = <500000>;
 			max-uV = <1800000>;
 			regulator-boot-on;
+			regulator_state_active {
+				regulator-on;
+				regulator-microvolt = <1000000>;
+			};
+			regulator_state_suspend_to_idle {
+				regulator-on;
+				regulator-microvolt = <600000>;
+			};
+			regulator_state_soft_off {
+				regulator-off;
+			};
 		};
 
 		pca9420_sw2: sw2_buck {
@@ -213,6 +259,18 @@ arduino_serial: &flexcomm12 {
 			min-uV = <1500000>;
 			max-uV = <3300000>;
 			regulator-boot-on;
+			regulator_state_active {
+				regulator-on;
+				regulator-microvolt = <1800000>;
+			};
+			regulator_state_suspend_to_idle {
+				regulator-on;
+				regulator-microvolt = <1800000>;
+			};
+			regulator_state_soft_off {
+				regulator-on;
+				regulator-microvolt = <1800000>;
+			};
 		};
 
 		pca9420_ldo1: ldo1_reg {
@@ -230,6 +288,18 @@ arduino_serial: &flexcomm12 {
 			min-uV = <1700000>;
 			max-uV = <1900000>;
 			regulator-boot-on;
+			regulator_state_active {
+				regulator-on;
+				regulator-microvolt = <1800000>;
+			};
+			regulator_state_suspend_to_idle {
+				regulator-on;
+				regulator-microvolt = <1800000>;
+			};
+			regulator_state_soft_off {
+				regulator-on;
+				regulator-microvolt = <1800000>;
+			};
 		};
 
 		pca9420_ldo2: ldo2_reg {
@@ -247,12 +317,21 @@ arduino_serial: &flexcomm12 {
 			min-uV = <1500000>;
 			max-uV = <3300000>;
 			regulator-boot-on;
+			regulator_state_active {
+				regulator-on;
+				regulator-microvolt = <3300000>;
+			};
+			regulator_state_suspend_to_idle {
+				regulator-on;
+				regulator-microvolt = <3300000>;
+			};
+			regulator_state_soft_off {
+				regulator-on;
+				regulator-microvolt = <3300000>;
+			};
 		};
-
-
 	};
 };
-
 
 &gpio0 {
 	status = "okay";
@@ -345,6 +424,10 @@ zephyr_udc0: &usbhs {
 
 &flexspi {
 	status = "okay";
+	pinctrl-0 = <&pinmux_flexspi>;
+	pinctrl-1 = <&pinmux_flexspi_sleep>;
+	pinctrl-names = "default", "sleep";
+
 	mx25um51345g: mx25um51345g@0 {
 		compatible = "nxp,imx-flexspi-mx25um51345g";
 		/* MX25UM51245G is 64MB, 512MBit flash part */
