@@ -20,6 +20,10 @@ zephyr_library_sources_ifdef(CONFIG_THREAD_LOCAL_STORAGE __aeabi_read_tp.S)
 zephyr_library_sources_ifdef(CONFIG_SEMIHOST semihost.c)
 zephyr_library_sources_ifdef(CONFIG_PM_S2RAM pm_s2ram.c pm_s2ram.S)
 
+if(CONFIG_HAS_ARCH_CACHE)
+  zephyr_library_sources_ifdef(CONFIG_CACHE_MANAGEMENT cache.c)
+endif()
+
 if(CONFIG_NULL_POINTER_EXCEPTION_DETECTION_DWT)
   zephyr_library_sources(debug.c)
 endif()
