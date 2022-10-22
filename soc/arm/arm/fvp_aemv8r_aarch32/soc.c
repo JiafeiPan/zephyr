@@ -11,15 +11,15 @@ void z_arm_platform_init(void)
 {
 	if (IS_ENABLED(CONFIG_ICACHE)) {
 		if (!(__get_SCTLR() & SCTLR_I_Msk)) {
-			arch_icache_all(K_CACHE_INVD);
-			arch_icache_enable();
+			cache_instr_all(K_CACHE_INVD);
+			cache_instr_enable();
 		}
 	}
 
 	if (IS_ENABLED(CONFIG_DCACHE)) {
 		if (!(__get_SCTLR() & SCTLR_C_Msk)) {
-			arch_dcache_all(K_CACHE_INVD);
-			arch_dcache_enable();
+			cache_data_all(K_CACHE_INVD);
+			cache_data_enable();
 		}
 	}
 }
