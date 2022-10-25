@@ -26,3 +26,9 @@ zephyr_library_sources_ifdef(CONFIG_PINCTRL_XLNX_ZYNQ pinctrl_xlnx_zynq.c)
 zephyr_library_sources_ifdef(CONFIG_PINCTRL_SMARTBOND pinctrl_smartbond.c)
 zephyr_library_sources_ifdef(CONFIG_PINCTRL_XMC4XXX pinctrl_xmc4xxx.c)
 zephyr_library_sources_ifdef(CONFIG_PINCTRL_S32 pinctrl_s32.c)
+
+# For power management relocate the pinctrl driver to RAM as some of the Flash
+# pins will get reconfigured to save power.
+if((CONFIG_XIP AND CONFIG_PM AND CONFIG_SOC_SERIES_IMX_RT5XX))
+  zephyr_code_relocate(pinctrl_lpc_iocon.c ${CONFIG_PINCTRL_NXP_IOCON_MEM}_TEXT)
+endif()
