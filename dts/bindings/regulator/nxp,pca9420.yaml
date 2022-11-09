@@ -116,3 +116,23 @@ child-binding:
           description: |
             Mask to apply to the current-levels value before writing it to the
             ilim-reg value to set the current limit
+
+  child-binding:
+    description: |
+      Sub-nodes for the regulator state in different Zephyr Power management states.
+
+    properties:
+      regulator-on:
+        type: boolean
+        required: false
+        description: regulator should be on for a given power mode.
+
+      regulator-off:
+        type: boolean
+        required: false
+        description: regulator should be off for a given power mode.
+
+      regulator-microvolt:
+        type: int
+        required: false
+        description: the default voltage which the regulator would be set in for a given power mode.
