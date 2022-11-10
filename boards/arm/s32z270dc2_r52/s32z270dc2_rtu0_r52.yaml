@@ -11,3 +11,5 @@ toolchain:
 supported:
   - uart
   - gpio
+  - can
+  - canfd

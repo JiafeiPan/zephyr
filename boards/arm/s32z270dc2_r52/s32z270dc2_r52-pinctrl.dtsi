@@ -17,4 +17,15 @@
 			input-enable;
 		};
 	};
+
+	can0_default: can0_default {
+		group1 {
+			pinmux = <PN2_CANXL_0_RX>;
+			input-enable;
+		};
+		group2 {
+			pinmux = <PN1_CANXL_0_TX>;
+			output-enable;
+		};
+	};
 };
