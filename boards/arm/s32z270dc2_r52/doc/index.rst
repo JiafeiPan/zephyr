@@ -43,6 +43,8 @@ The boards support the following hardware features:
 +-----------+------------+-------------------------------------+
 | SPI       | on-chip    | spi                                 |
 +-----------+------------+-------------------------------------+
+| CANEXCEL  | on-chip    | can                                 |
++-----------+------------+-------------------------------------+
 
 Other hardware features are not currently supported by the port.
 
@@ -104,6 +106,14 @@ Serial Port
 The SoC has 12 LINFlexD instances that can be used in UART mode. Instance 0
 (defined as ``uart0`` in devicetree) is configured for the console and the
 remaining are disabled and not configured.
+
+Controller Area Network (CAN)
+=============================
+
+Currently, CAN driver supports classic (CAN 2.0) and CAN FD mode,
+But remote transmission request is not supported as this feature
+is not available on NXP S32 CANXL HAL. CAN socket can work on
+classic and FD mode only with classic frame.
 
 Programming and Debugging
 *************************
