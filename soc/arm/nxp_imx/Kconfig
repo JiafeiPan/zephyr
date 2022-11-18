@@ -23,4 +23,14 @@ config SOC_PART_NUMBER
 	default SOC_PART_NUMBER_IMX8ML_M7 if SOC_SERIES_IMX8ML_M7
 	default SOC_PART_NUMBER_IMX8MQ_M4 if SOC_SERIES_IMX8MQ_M4
 
+config FLASH_MCUX_FLEXSPI_XIP
+	bool "MCUX FlexSPI flash access with xip"
+	default y
+	depends on MEMC_MCUX_FLEXSPI
+	depends on (CODE_FLEXSPI || CODE_FLEXSPI2 || SOC_SERIES_IMX_RT6XX)
+	select XIP
+	help
+	  Allows using the flash API while running in XIP.
+	  WARNING: It is possible to overwrite the running application itself.
+
 endif # SOC_FAMILY_IMX
