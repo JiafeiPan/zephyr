@@ -1,0 +1,25 @@
+/*
+ * Copyright 2022 NXP
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+&swt0 {
+	status = "okay";
+};
+
+&swt1 {
+	status = "okay";
+};
+
+&swt2 {
+	status = "okay";
+};
+
+&swt3 {
+	status = "okay";
+};
+
+&swt4 {
+	status = "okay";
+};
