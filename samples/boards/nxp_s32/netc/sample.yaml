@@ -1,0 +1,15 @@
+sample:
+  description: Sample for show-casing the different use-cases of NXP S32 NETC driver
+  name: NXP S32 NETC sample
+tests:
+  sample.boards.nxp_s32.netc.psi:
+    depends_on: netif
+    platform_allow: s32z270dc2_rtu0_r52
+    build_only: true
+    tags: net
+  sample.boards.nxp_s32.netc.vsi_and_psi:
+    depends_on: netif
+    platform_allow: s32z270dc2_rtu0_r52
+    extra_args: DTC_OVERLAY_FILE="./vsi-and-psi.overlay"
+    build_only: true
+    tags: net
